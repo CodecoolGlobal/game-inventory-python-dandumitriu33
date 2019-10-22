@@ -9,12 +9,18 @@ def display_inventory(inventory):
     rope: 1
     torch: 6
     '''
-    pass
+    for i in inventory.items():
+        print(f'{i[0]}: {i[1]}')
 
 
 def add_to_inventory(inventory, added_items):
     '''Add to the inventory dictionary a list of items from added_items.'''
-    pass
+    for i in added_items:
+        if i in inventory.keys():
+            inventory[i] += 1
+        elif i not in inventory.keys():
+            inventory[i] = 1
+    return inventory
 
 
 def print_table(inventory, order=None):

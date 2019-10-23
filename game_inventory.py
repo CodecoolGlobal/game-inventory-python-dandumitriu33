@@ -97,7 +97,7 @@ def import_inventory(inventory, filename="import_inventory.csv"):
     The file format is plain text with comma separated values (CSV).
     '''
     try:
-        with open(filename, 'rt') as csv_file:
+        with open(filename, 'rt', encoding='utf-8') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
                 for i in row:
@@ -124,7 +124,7 @@ def export_inventory(inventory, filename="export_inventory.csv"):
         for i in range(inventory[key]):
             item_list.append(key)
     try:
-        with open(filename, 'w') as csv_file:
+        with open(filename, 'w', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(item_list)
     except PermissionError:

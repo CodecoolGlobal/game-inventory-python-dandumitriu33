@@ -42,7 +42,47 @@ def print_table(inventory, order=None):
     - "count,asc" means the table is ordered by count in ascending order
     '''
 
-    pass
+    key_lengths = []
+    for i in inventory.keys():
+        key_lengths.append(len(i))  
+    key_lengths.append(len('item name'))
+    item_name_column_width = int(max(key_lengths))
+    value_lengths = []
+    for j in inventory.values():
+        value_lengths.append(len(str(j)))
+    value_lengths.append(len('count'))
+    item_count_column_width = int(max(value_lengths))
+    table_width = item_name_column_width + item_count_column_width + 3  # the |
+    print('-' * table_width)
+    print('{:{align}{width}} |'.format('item name', align='>', width=str(item_name_column_width)),
+          '{:{align}{width}}'.format('count', align='>', width=str(item_count_column_width)))
+    print('-' * table_width)
+
+    def print_inventory_normal():
+        for i in range(len(inventory)):
+            print('{:{align}{width}} |'.format(list(inventory.keys())[i], align='>', width=str(item_name_column_width)),
+                  '{:{align}{width}}'.format(list(inventory.values())[i], align='>', width=str(item_count_column_width)))
+
+    def print_inventory_ascending():
+        sorted_inventory_tuples = sorted(inventory.items(), key=lambda kv: kv[1])
+        # print(sorted_inventory_tuples)
+        for i in sorted_inventory_tuples:
+            print('{:{align}{width}} |'.format(i[0], align='>', width=str(item_name_column_width)),
+                  '{:{align}{width}}'.format(i[1], align='>', width=str(item_count_column_width)))
+
+    def print_inventory_descending():
+        reverse_sorted_inventory_tuples = reversed(sorted(inventory.items(), key=lambda kv: kv[1]))
+        for i in reverse_sorted_inventory_tuples:
+            print('{:{align}{width}} |'.format(i[0], align='>', width=str(item_name_column_width)),
+                  '{:{align}{width}}'.format(i[1], align='>', width=str(item_count_column_width)))
+
+    if order == 'count,asc':
+        print_inventory_ascending()
+    elif order == 'count,desc':
+        print_inventory_descending()
+    else:
+        print_inventory_normal()
+    print('-' * table_width)
 
 
 def import_inventory(inventory, filename="import_inventory.csv"):

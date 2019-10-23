@@ -1,4 +1,6 @@
 
+import csv
+
 # This is the file where you must work.
 # Write code in the functions (and create new functions) so that they work
 # according to the specification.
@@ -94,8 +96,18 @@ def import_inventory(inventory, filename="import_inventory.csv"):
 
     The file format is plain text with comma separated values (CSV).
     '''
-
-    pass
+    try:
+        with open(filename, 'rt') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                for i in row:
+                    if i in inventory:
+                        inventory[i] += 1
+                    else:
+                        inventory[i] = 1
+    except FileNotFoundError:
+        print("File 'no_such_file.csv' not found!")
+    return inventory
 
 
 def export_inventory(inventory, filename="export_inventory.csv"):

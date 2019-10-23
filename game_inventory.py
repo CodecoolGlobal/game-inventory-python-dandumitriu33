@@ -119,5 +119,13 @@ def export_inventory(inventory, filename="export_inventory.csv"):
 
     The file format is plain text with comma separated values (CSV).
     '''
-
-    pass
+    item_list = []
+    for key in inventory.keys():
+        for i in range(inventory[key]):
+            item_list.append(key)
+    try:
+        with open(filename, 'w') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(item_list)
+    except PermissionError:
+        print("You don't have permission creating file '/nopermission.csv'!")    
